@@ -1,15 +1,12 @@
-import numpy as np
-import pandas as pd
-from PIL import Image
-
-import os
+import sys
 from os.path import join
 
+import numpy as np
+import pandas as pd
 import torch
-import torch.nn as nn
+from PIL import Image
 from torch.autograd import Variable
 
-import sys
 sys.path.append('..')
 
 from scripts.pandas_dataset import PandasDataset
@@ -28,7 +25,8 @@ def save_history(history, save_dir):
     save_path = join(save_dir, 'history.txt')
     with open(save_path, 'w') as f:
         f.write(str(save_info))
-        
+
+
 def predict_test(model, test_df, save_dir):
     subm = pd.read_csv(SAMPLE_PATH, index_col=0)
     for i, row in test_df.iterrows():
@@ -40,13 +38,14 @@ def predict_test(model, test_df, save_dir):
         subm.loc[row.Name] = prob_pred.cpu().data.numpy()
     subm_path = join(save_dir, 'subm.csv')
     subm.to_csv(subm_path)
-        
+
+
 def train_fold(kfold_df, test_df, params, fold):
-    fold_save_path = join(params['save_dir'], 'fold_%d'%fold)
+    fold_save_path = join(params['save_dir'], 'fold_%d' % fold)
     model_save_path = join(fold_save_path, 'model.pth.tar')
     mkdir(fold_save_path)
     train_df = kfold_df[kfold_df.Fold != fold]
-    val_df = kfold_df[(kfold_df.Fold == fold)&(kfold_df.Additional == 0)]
+    val_df = kfold_df[(kfold_df.Fold == fold) & (kfold_df.Additional == 0)]
 
     train_loader = torch.utils.data.DataLoader(
         PandasDataset(train_df, train_transform()),
@@ -67,6 +66,7 @@ def train_fold(kfold_df, test_df, params, fold):
     save_history(history, fold_save_path)
     del model, train_loader, val_loader
 
+
 def train_kfolds(params):
     mkdir(params['save_dir'])
     kfold_df, test_df = load_detect_train_test_df(params['data_dir'])
@@ -74,7 +74,7 @@ def train_kfolds(params):
 
     with open(join(params['save_dir'], 'params.txt'), 'w') as f:
         f.write(str(params))
-    
+
     for fold in folds:
         print("Start train fold %d" % fold)
         train_fold(kfold_df, test_df, params, fold)

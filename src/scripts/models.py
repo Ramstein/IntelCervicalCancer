@@ -1,12 +1,10 @@
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
 import torchvision.models as models
 from scripts.model import Model
 
 
 def get_pretrained_model(arch, lr=1e-4, momentum=0.9, weight_decay=1e-4):
-    
     if arch == 'vgg13':
         model = models.vgg13(pretrained=True)
     elif arch == 'vgg11':
@@ -16,8 +14,8 @@ def get_pretrained_model(arch, lr=1e-4, momentum=0.9, weight_decay=1e-4):
     elif arch == 'resnet50':
         model = models.resnet50(pretrained=True)
     else:
-        raise Exception("Not supported architecture: %s"%arch)
-    
+        raise Exception("Not supported architecture: %s" % arch)
+
     if arch.startswith('vgg'):
         mod = list(model.classifier.children())
         mod.pop()
@@ -27,14 +25,14 @@ def get_pretrained_model(arch, lr=1e-4, momentum=0.9, weight_decay=1e-4):
     elif arch.startswith('resnet'):
         model.fc = nn.Linear(2048, 3)
     else:
-        raise Exception("Not supported architecture: %s"%arch)
+        raise Exception("Not supported architecture: %s" % arch)
 
     optimizer = torch.optim.SGD(model.parameters(), lr,
                                 momentum=momentum,
                                 weight_decay=weight_decay)
     model = torch.nn.DataParallel(model).cuda()
     criterion = nn.CrossEntropyLoss().cuda()
-    
+
     return Model(model, criterion, optimizer)
 
 
@@ -52,8 +50,8 @@ class BasicConv2d(nn.Module):
         x = self.bn(x)
         x = self.relu(x)
         return x
-    
-    
+
+
 class Detector(nn.Module):
     def __init__(self):
         super(Detector, self).__init__()
@@ -71,35 +69,34 @@ class Detector(nn.Module):
         self.dropout2d = nn.Dropout2d(p=0.25)
         self.dropout = nn.Dropout(p=0.25)
         self.relu = nn.ReLU(inplace=True)
-        
+
     def forward(self, x):
         x = self.input_conv(x)
-        
+
         x = self.conv_1(x)
         x = self.pool(x)
         x = self.conv_2(x)
         x = self.pool(x)
         x = self.dropout2d(x)
-        
+
         x = self.conv_3(x)
         x = self.pool(x)
         x = self.conv_4(x)
         x = self.pool(x)
         x = self.dropout2d(x)
-        
+
         x = self.conv_5(x)
         x = self.pool(x)
         x = self.conv_6(x)
         x = self.pool(x)
         x = self.dropout2d(x)
-        
+
         x = x.view(x.size(0), -1)
         x = self.fc_1(x)
         x = self.relu(x)
         x = self.dropout(x)
-        
+
         x = self.fc_2(x)
         x = self.relu(x)
-        
+
         return x
-    

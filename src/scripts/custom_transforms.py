@@ -1,7 +1,9 @@
-import random
 import math
+import random
+
 import torchvision.transforms as transforms
 from PIL import Image
+
 
 class RandomVerticalFlip(object):
 
@@ -9,14 +11,16 @@ class RandomVerticalFlip(object):
         if random.random() < 0.5:
             return img.transpose(Image.FLIP_TOP_BOTTOM)
         return img
-    
+
+
 class RandomRotation(object):
 
     def __call__(self, img):
         angle = random.randint(0, 360)
         img = img.rotate(angle)
         return img
-    
+
+
 class RandomSizedCrop(object):
     """Random crop the given PIL.Image to a random size of (0.08 to 1.0) of the original size
     and and a random aspect ratio of 3/4 to 4/3 of the original aspect ratio
@@ -46,7 +50,7 @@ class RandomSizedCrop(object):
                 y1 = random.randint(0, img.size[1] - h)
 
                 img = img.crop((x1, y1, x1 + w, y1 + h))
-                assert(img.size == (w, h))
+                assert (img.size == (w, h))
 
                 return img.resize((self.size, self.size), self.interpolation)
 
@@ -54,10 +58,11 @@ class RandomSizedCrop(object):
         scale = transforms.Scale(self.size, interpolation=self.interpolation)
         crop = transforms.CenterCrop(self.size)
         return crop(scale(img))
-    
+
+
 def train_transform():
     normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
-                                 std=[0.229, 0.224, 0.225])
+                                     std=[0.229, 0.224, 0.225])
     train_transform = transforms.Compose([
         RandomRotation(),
         RandomSizedCrop(224),
@@ -68,9 +73,10 @@ def train_transform():
     ])
     return train_transform
 
+
 def test_transform():
     normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
-                                 std=[0.229, 0.224, 0.225])
+                                     std=[0.229, 0.224, 0.225])
     test_transform = transforms.Compose([
         transforms.CenterCrop(224),
         transforms.ToTensor(),

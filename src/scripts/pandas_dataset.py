@@ -1,9 +1,6 @@
 import torch.utils.data as data
 
-import pandas as pd
 from PIL import Image
-import os
-import os.path
 
 IMG_EXTENSIONS = [
     '.jpg', '.JPG', '.jpeg', '.JPEG',
@@ -48,8 +45,8 @@ class PandasDataset(data.Dataset):
         classes, class_to_idx = find_classes(df.Class)
         imgs = make_dataset(df, class_to_idx)
         if len(imgs) == 0:
-            raise(RuntimeError("Found 0 images in DataFrame"
-                               "Supported image extensions are: " + ",".join(IMG_EXTENSIONS)))
+            raise (RuntimeError("Found 0 images in DataFrame"
+                                "Supported image extensions are: " + ",".join(IMG_EXTENSIONS)))
 
         self.df = df
         self.imgs = imgs
