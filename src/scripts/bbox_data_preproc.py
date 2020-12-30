@@ -114,9 +114,9 @@ def save_image(save_name, output_dir, img, points, check=True):
         
 
 def augment_save_data_df(df, output_dir, net_size):
-    mkdir(join(output_dir, 'img'))
-    mkdir(join(output_dir, 'pts'))
-    mkdir(join(output_dir, 'check'))
+    os.mkdir(join(output_dir, 'img'))
+    os.mkdir(join(output_dir, 'pts'))
+    os.mkdir(join(output_dir, 'check'))
     
     for i, row in df.iterrows():
         img, points = get_image_points(row)
