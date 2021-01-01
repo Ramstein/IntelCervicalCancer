@@ -75,14 +75,14 @@ def get_test_df():
 
 
 def load_train_val_df():
-    path = '/workdir/data/train_val.pickle'
-    if os.path.isfile(path):
+    from src.scripts.utils import dataset_in_pickle
+    if os.path.isfile(dataset_in_pickle):
         print('Load train val')
-        with open(path, 'rb') as f:
+        with open(dataset_in_pickle, 'rb') as f:
             train_df, val_df = pickle.load(f)
     else:
         print('Dump train val')
         train_df, val_df = get_train_val_df()
-        with open(path, 'wb') as f:
+        with open(dataset_in_pickle, 'wb') as f:
             pickle.dump((train_df, val_df), f)
     return train_df, val_df

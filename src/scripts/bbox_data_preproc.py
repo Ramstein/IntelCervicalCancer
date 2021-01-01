@@ -1,4 +1,5 @@
 import random
+import sys
 from os.path import join
 
 import cv2
@@ -141,8 +142,7 @@ def augment_save_data_df(df, output_dir, net_size):
             img, points = rot90_image(img, points)
 
         if i % 100 == 0:
-            print('Processed %d images' % i)
-
+            sys.stdout.write('Processed %d images' % i)
     print("Save data to", output_dir)
 
 
@@ -171,7 +171,7 @@ def load_dataset(data_dir, img_size, N_max=15000):
         y_train = np.load(join(data_dir, 'y_train.npy'))
         X_val = np.load(join(data_dir, 'X_val.npy'))
         y_val = np.load(join(data_dir, 'y_val.npy'))
-        print("Load data")
+        print("Loaded data")
     else:
         X_train, y_train = load_data(join(data_dir, 'train'), img_size, N_max)
         X_val, y_val = load_data(join(data_dir, 'val'), img_size, N_max)
@@ -179,5 +179,5 @@ def load_dataset(data_dir, img_size, N_max=15000):
         np.save(join(data_dir, 'y_train.npy'), y_train)
         np.save(join(data_dir, 'X_val.npy'), X_val)
         np.save(join(data_dir, 'y_val.npy'), y_val)
-        print("Save data")
+        print("loaded and saved the data")
     return X_train, y_train, X_val, y_val

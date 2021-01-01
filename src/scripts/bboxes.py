@@ -2,7 +2,9 @@ from os.path import join
 
 import pandas as pd
 
-from src.scripts.utils import *
+from src.scripts.utils import BBOX_FILES
+from src.scripts.utils import CLASSES
+from src.scripts.utils import DATA_DIR
 
 
 def type_bboxes(bbox_path):
@@ -16,9 +18,8 @@ def type_bboxes(bbox_path):
 
 
 def get_bboxes_df():
-    bboxes_path = "/workdir/data/bboxes/%s_bbox.tsv"
     df_list = []
     for cls in CLASSES:
-        df = type_bboxes(bboxes_path % cls)
+        df = type_bboxes(BBOX_FILES % cls)
         df_list.append(df)
     return pd.concat(df_list, ignore_index=True)
