@@ -9,7 +9,6 @@ from torch.autograd.variable import Variable
 
 from src.scripts.bbox_data_preproc import load_dataset
 from src.scripts.models import Detector
-from src.scripts.utils import mkdir
 
 
 def get_model():
@@ -70,13 +69,13 @@ if __name__ == "__main__":
     n_epoch = 1000
     workers = multiprocessing.cpu_count()
     img_size = (1024, 1024)
-    dataset_name = 'data001_size192'
+    dataset_name = 'data001_size1024'
     train_name = 'detector_002'
     data_dir = '/workdir/data/detect_data/{0}'.format(dataset_name)
     model_save_dir = '/workdir/data/models/{0}/{1}/'.format(dataset_name, train_name)
 
     if not os.path.isdir(model_save_dir):
-        mkdir(model_save_dir)
+        os.mkdir(model_save_dir)
 
     """LOAD DATA"""
     """LOAD DATA"""
@@ -109,6 +108,7 @@ if __name__ == "__main__":
         if train_acc_old < train_acc:
             torch.save(model.state_dict(), join(model_save_dir, 'model_TA-' + epoch_str + '.pth.tar'))
             print("Model " + 'model_TA-' + epoch_str + '.pth.tar' + " saved.")
+        train_acc_old = train_acc
 
     torch.save(model.state_dict(), join(model_save_dir, 'model_TA-' + epoch_str + '.pth.tar'))
     print("Model " + 'model_TA-' + epoch_str + '.pth.tar' + " saved.")

@@ -12,7 +12,7 @@ from src.scripts.utils import *
 
 def load_bboxes_train_val_df():
     bbox_df = get_bboxes_df()
-    train_df, val_df = load_train_val_df()
+    train_df, val_df = load_train_val_df()  # creates a Dataframe of all images available
     train_df = train_df.merge(bbox_df, on='Path', how='inner')
     val_df = val_df.merge(bbox_df, on='Path', how='inner')
     return train_df, val_df
@@ -107,22 +107,22 @@ def netout2points(netout):
     return np.array(points, dtype=int)
 
 
-def save_image(save_name, output_dir, img, points, check=True):
-    save_img_path = join(output_dir, 'img', save_name + '.png')
-    save_pts_path = join(output_dir, 'pts', save_name + '.npy')
+def save_image(save_name, aug_output_dir, img, points, check=True):
+    save_img_path = join(aug_output_dir, 'img', save_name + '.png')
+    save_pts_path = join(aug_output_dir, 'pts', save_name + '.npy')
     cv2.imwrite(save_img_path, img)
     netout = points2netout(points)
     np.save(save_pts_path, netout)
     if check:
-        save_check_path = join(output_dir, 'check', save_name + '.png')
+        save_check_path = join(aug_output_dir, 'check', save_name + '.png')
         points = netout2points(netout)
         cv2.imwrite(save_check_path, check_poly(img, points))
 
 
-def augment_save_data_df(df, output_dir, net_size):
-    os.mkdir(join(output_dir, 'img'))
-    os.mkdir(join(output_dir, 'pts'))
-    os.mkdir(join(output_dir, 'check'))
+def augment_save_data_df(df, aug_output_dir, net_size):
+    os.mkdir(join(aug_output_dir, 'img'))
+    os.mkdir(join(aug_output_dir, 'pts'))
+    os.mkdir(join(aug_output_dir, 'check'))
 
     for i, row in df.iterrows():
         img, points = get_image_points(row)
@@ -130,20 +130,20 @@ def augment_save_data_df(df, output_dir, net_size):
         img, points = resize_image(img, points, net_size)
         name = row.Name[:-len('.jpg')] + '_' + row.Class
         for r in ['0', '90', '180', '270']:
-            save_image(name + "_" + r, output_dir, img, points)
+            save_image(name + "_" + r, aug_output_dir, img, points)
             for fl in [0, 1, 'a']:
                 if fl != 'a':
                     flip_img, flip_pts = flip_image(img, points, fl)
-                    save_image(name + "_" + r + '_' + str(fl), output_dir, flip_img, flip_pts)
+                    save_image(name + "_" + r + '_' + str(fl), aug_output_dir, flip_img, flip_pts)
                 else:
                     flip_img, flip_pts = flip_image(img, points, 0)
                     flip_img, flip_pts = flip_image(flip_img, flip_pts, 1)
-                    save_image(name + "_" + r + '_' + fl, output_dir, flip_img, flip_pts)
+                    save_image(name + "_" + r + '_' + fl, aug_output_dir, flip_img, flip_pts)
             img, points = rot90_image(img, points)
 
         if i % 100 == 0:
             sys.stdout.write('Processed %d images' % i)
-    print("Save data to", output_dir)
+    print("Save data to", aug_output_dir)
 
 
 def load_data(data_dir, img_size, N_max):
@@ -173,7 +173,7 @@ def load_dataset(data_dir, img_size, N_max=15000):
         y_val = np.load(join(data_dir, 'y_val.npy'))
         print("Loaded data")
     else:
-        X_train, y_train = load_data(join(data_dir, 'train'), img_size, N_max)
+        X_train, y_train = load_data(join(data_dir, 'train'), img_size, N_max) # reads the augmented data
         X_val, y_val = load_data(join(data_dir, 'val'), img_size, N_max)
         np.save(join(data_dir, 'X_train.npy'), X_train)
         np.save(join(data_dir, 'y_train.npy'), y_train)

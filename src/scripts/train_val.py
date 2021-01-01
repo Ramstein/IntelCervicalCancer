@@ -6,7 +6,7 @@ import pandas as pd
 from PIL import Image
 
 from src.scripts.utils import CLASSES
-from src.scripts.utils import DATA_DIR, TEST_DATA_DIR, ADD_DATA_DIR
+from src.scripts.utils import TRAIN_DATA_DIR, TEST_DATA_DIR, ADD_DATA_DIR
 
 
 def get_data_df(data_dir):
@@ -42,7 +42,7 @@ def get_train_val_idx(df):
 
 
 def get_train_val_df():
-    data_df = get_data_df(DATA_DIR)
+    data_df = get_data_df(TRAIN_DATA_DIR)
     train_index, val_index = get_train_val_idx(data_df)
     train_df = data_df.iloc[train_index]
     val_df = data_df.iloc[val_index]

@@ -7,7 +7,7 @@ from PIL import Image
 
 from src.scripts.bboxes import get_bboxes_df
 from src.scripts.utils import CLASSES
-from src.scripts.utils import DATA_DIR, TEST_DATA_DIR, ADD_DATA_DIR
+from src.scripts.utils import TRAIN_DATA_DIR, TEST_DATA_DIR, ADD_DATA_DIR
 
 
 def get_data_df(data_dir):
@@ -81,7 +81,7 @@ def load_train_add_kfold_df(k=10):
             train_df, add_df = pickle.load(f)
         print('Load kfold')
     else:
-        train_df = get_kfold_df(DATA_DIR, k)
+        train_df = get_kfold_df(TRAIN_DATA_DIR, k)
         train_df = train_df.merge(get_bboxes_df(), on='Path', how='inner')
         train_df['Additional'] = 0
         add_df = get_kfold_df(ADD_DATA_DIR, k)
