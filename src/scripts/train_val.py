@@ -4,6 +4,7 @@ from os.path import join
 
 import pandas as pd
 from PIL import Image
+from tqdm import tqdm
 
 from src.scripts.utils import CLASSES
 from src.scripts.utils import TRAIN_DATA_DIR, TEST_DATA_DIR, ADD_DATA_DIR
@@ -16,20 +17,29 @@ def get_data_df(data_dir):
     img_sizes = []
     for cls in CLASSES:
         cls_dir = join(data_dir, cls)
-        for img_name in os.listdir(cls_dir):
-            if img_name.endswith(b'jpg'):
-                img_names.append(img_name)
-                img_classes.append(cls)
-                img_path = join(cls_dir, img_name)
-                img_paths.append(img_path)
-                img_sizes.append(Image.open(img_path).size)
+        for img_name in tqdm(os.listdir(cls_dir)):
+            if img_name.endswith('jpg'):
+                try:
+                    img_names.append(img_name)
+                    img_classes.append(cls)
+                    img_path = join(cls_dir, img_name)
+                    img_paths.append(img_path)
+                    img_sizes.append(Image.open(img_path).size)
+                except Exception as e:
+                    print(e)
             else:
                 print(img_name, 'skipped')
-    df = pd.DataFrame({'Name': img_names,
-                       'Path': img_paths,
-                       'Class': img_classes,
-                       'Width': list(map(lambda x: x[0], img_sizes)),
-                       'Height': list(map(lambda x: x[1], img_sizes))})
+    # df = pd.DataFrame({'Name': img_names,
+    #                    'Path': img_paths,
+    #                    'Class': img_classes,
+    #                    'Width': list(map(lambda x: x[0], img_sizes)),
+    #                    'Height': list(map(lambda x: x[1], img_sizes))})
+    df = pd.DataFrame.from_dict({'Name': img_names,
+                                 'Path': img_paths,
+                                 'Class': img_classes,
+                                 'Width': list(map(lambda x: x[0], img_sizes)),
+                                 'Height': list(map(lambda x: x[1], img_sizes))}, orient='index')
+    df = df.transpose()
     df = df[['Class', 'Name', 'Path', 'Width', 'Height']]
     return df.sort_values('Name')
 
@@ -77,12 +87,12 @@ def get_test_df():
 def load_train_val_df():
     from src.scripts.utils import dataset_in_pickle
     if os.path.isfile(dataset_in_pickle):
-        print('Load train val')
+        print('Loaded train_val.pickle from', dataset_in_pickle)
         with open(dataset_in_pickle, 'rb') as f:
             train_df, val_df = pickle.load(f)
     else:
-        print('Dump train val')
         train_df, val_df = get_train_val_df()
         with open(dataset_in_pickle, 'wb') as f:
             pickle.dump((train_df, val_df), f)
+            print('Dumped train_df and val_df to', dataset_in_pickle)
     return train_df, val_df

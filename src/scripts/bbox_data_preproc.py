@@ -1,9 +1,8 @@
 import random
-import sys
-from os.path import join
 
 import cv2
 import numpy as np
+from tqdm import tqdm
 
 from src.scripts.bboxes import get_bboxes_df
 from src.scripts.train_val import load_train_val_df
@@ -120,11 +119,12 @@ def save_image(save_name, aug_output_dir, img, points, check=True):
 
 
 def augment_save_data_df(df, aug_output_dir, net_size):
-    os.mkdir(join(aug_output_dir, 'img'))
-    os.mkdir(join(aug_output_dir, 'pts'))
-    os.mkdir(join(aug_output_dir, 'check'))
+    mkdir(join(aug_output_dir, 'img'))
+    mkdir(join(aug_output_dir, 'pts'))
+    mkdir(join(aug_output_dir, 'check'))
+    print("Augmenting the data: Output being saved to", aug_output_dir)
 
-    for i, row in df.iterrows():
+    for i, row in tqdm(df.iterrows()):
         img, points = get_image_points(row)
         img, points = square_image(img, points)
         img, points = resize_image(img, points, net_size)
@@ -141,9 +141,7 @@ def augment_save_data_df(df, aug_output_dir, net_size):
                     save_image(name + "_" + r + '_' + fl, aug_output_dir, flip_img, flip_pts)
             img, points = rot90_image(img, points)
 
-        if i % 100 == 0:
-            sys.stdout.write('Processed %d images' % i)
-    print("Save data to", aug_output_dir)
+    print("Saved augmented data to", aug_output_dir)
 
 
 def load_data(data_dir, img_size, N_max):
@@ -171,13 +169,13 @@ def load_dataset(data_dir, img_size, N_max=15000):
         y_train = np.load(join(data_dir, 'y_train.npy'))
         X_val = np.load(join(data_dir, 'X_val.npy'))
         y_val = np.load(join(data_dir, 'y_val.npy'))
-        print("Loaded data")
+        print("Loaded X_train.npy, y_train.npy, X_val.npy, y_val.npy")
     else:
-        X_train, y_train = load_data(join(data_dir, 'train'), img_size, N_max) # reads the augmented data
+        X_train, y_train = load_data(join(data_dir, 'train'), img_size, N_max)  # reads the augmented data
         X_val, y_val = load_data(join(data_dir, 'val'), img_size, N_max)
         np.save(join(data_dir, 'X_train.npy'), X_train)
         np.save(join(data_dir, 'y_train.npy'), y_train)
         np.save(join(data_dir, 'X_val.npy'), X_val)
         np.save(join(data_dir, 'y_val.npy'), y_val)
-        print("loaded and saved the data")
+        print("Created X_train.npy, y_train.npy, X_val.npy, y_val.npy and saved it.")
     return X_train, y_train, X_val, y_val
