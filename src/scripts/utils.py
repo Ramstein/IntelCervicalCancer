@@ -8,7 +8,7 @@ ADD_DATA_DIR = '/workdir/data/additional/'
 BBOX_FILES = '/workdir/data/bboxes/%s_bbox.tsv'
 SAMPLE_PATH = '/workdir/data/sample_submission.csv'
 dataset_in_pickle = '/workdir/data/train_val.pickle'
-
+output_dir = '/workdir/data/detect_data/data001_size192'
 
 CLASSES = ['Type_1', 'Type_2', 'Type_3']
 
