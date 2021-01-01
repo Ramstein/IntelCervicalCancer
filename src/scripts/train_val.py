@@ -4,8 +4,9 @@ from os.path import join
 
 import pandas as pd
 from PIL import Image
-from scripts.utils import CLASSES
-from scripts.utils import DATA_DIR, TEST_DATA_DIR, ADD_DATA_DIR
+
+from src.scripts.utils import CLASSES
+from src.scripts.utils import DATA_DIR, TEST_DATA_DIR, ADD_DATA_DIR
 
 
 def get_data_df(data_dir):
@@ -16,7 +17,7 @@ def get_data_df(data_dir):
     for cls in CLASSES:
         cls_dir = join(data_dir, cls)
         for img_name in os.listdir(cls_dir):
-            if img_name.endswith('jpg'):
+            if img_name.endswith(b'jpg'):
                 img_names.append(img_name)
                 img_classes.append(cls)
                 img_path = join(cls_dir, img_name)

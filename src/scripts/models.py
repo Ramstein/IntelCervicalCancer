@@ -1,7 +1,8 @@
 import torch
 import torch.nn as nn
 import torchvision.models as models
-from scripts.model import Model
+
+from src.scripts.model import Model
 
 
 def get_pretrained_model(arch, lr=1e-4, momentum=0.9, weight_decay=1e-4):

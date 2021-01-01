@@ -2,7 +2,7 @@ import sys
 
 sys.path.append('..')
 
-from scripts.train_kfolds import train_kfolds
+from src.scripts.train_kfolds import train_kfolds
 
 data_dir = '/workdir/data/preproc_data/data002_kfold_val_detector002_size256_scale1.5'
 save_dir = '/workdir/data/kfold_train/10fold_vgg16_001'

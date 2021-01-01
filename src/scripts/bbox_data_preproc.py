@@ -1,12 +1,12 @@
-import os
 import random
 from os.path import join
 
 import cv2
 import numpy as np
-from scripts.bboxes import get_bboxes_df
-from scripts.train_val import load_train_val_df
-from scripts.utils import *
+
+from src.scripts.bboxes import get_bboxes_df
+from src.scripts.train_val import load_train_val_df
+from src.scripts.utils import *
 
 
 def load_bboxes_train_val_df():

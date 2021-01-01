@@ -44,7 +44,7 @@ class Model:
         loss_meter = AverageMeter()
 
         for i, (input, target) in enumerate(data_loader):
-            target = target.cuda(async=True)
+            target = target.cuda()
             input_var = torch.autograd.Variable(input)
             target_var = torch.autograd.Variable(target)
 

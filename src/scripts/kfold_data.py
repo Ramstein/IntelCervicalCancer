@@ -4,9 +4,10 @@ from os.path import join
 
 import pandas as pd
 from PIL import Image
-from scripts.bboxes import get_bboxes_df
-from scripts.utils import CLASSES
-from scripts.utils import DATA_DIR, TEST_DATA_DIR, ADD_DATA_DIR
+
+from src.scripts.bboxes import get_bboxes_df
+from src.scripts.utils import CLASSES
+from src.scripts.utils import DATA_DIR, TEST_DATA_DIR, ADD_DATA_DIR
 
 
 def get_data_df(data_dir):

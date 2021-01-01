@@ -1,7 +1,8 @@
 from os.path import join
 
 import pandas as pd
-from scripts.utils import *
+
+from src.scripts.utils import *
 
 
 def type_bboxes(bbox_path):

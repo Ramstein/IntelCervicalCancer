@@ -9,12 +9,12 @@ from torch.autograd import Variable
 
 sys.path.append('..')
 
-from scripts.pandas_dataset import PandasDataset
-from scripts.custom_transforms import train_transform, test_transform
-from scripts.models import get_pretrained_model
-from scripts.kfold_data import load_detect_train_test_df
+from src.scripts.pandas_dataset import PandasDataset
+from src.scripts.custom_transforms import train_transform, test_transform
+from src.scripts.models import get_pretrained_model
+from src.scripts.kfold_data import load_detect_train_test_df
 
-from scripts.utils import mkdir, SAMPLE_PATH
+from src.scripts.utils import mkdir, SAMPLE_PATH
 
 
 def save_history(history, save_dir):
