@@ -155,7 +155,7 @@ def load_data(data_dir, img_size, N_max):
     target = np.zeros((N_examples, 4), dtype=np.float32)
 
     random.shuffle(img_names)
-    for i, name in enumerate(img_names[:N_examples]):
+    for i, name in tqdm(zip(range(N_examples), img_names[:N_examples])):
         img = cv2.imread(join(img_dir, name))
         # img = preproc_img(img)
         pts = np.load(join(pts_dir, name[:-len('png')] + 'npy'))
