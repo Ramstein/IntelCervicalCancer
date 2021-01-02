@@ -7,6 +7,7 @@ from PIL import Image
 
 from src.scripts.bboxes import get_bboxes_df
 from src.scripts.utils import CLASSES
+from src.scripts.utils import SageMakerRoot_dir
 from src.scripts.utils import TRAIN_DATA_DIR, TEST_DATA_DIR, ADD_DATA_DIR
 
 
@@ -75,7 +76,7 @@ def get_test_df():
 
 
 def load_train_add_kfold_df(k=10):
-    path = '/workdir/data/%dfold.pickle' % k
+    path = os.path.join(SageMakerRoot_dir, 'data/%dfold.pickle' % k)
     if os.path.isfile(path):
         with open(path, 'rb') as f:
             train_df, add_df = pickle.load(f)

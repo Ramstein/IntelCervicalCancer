@@ -12,6 +12,7 @@ from src.scripts.bbox_data_preproc import square_image, netout2points, check_pol
 from src.scripts.kfold_data import load_train_add_kfold_df, get_test_df
 from src.scripts.models import Detector
 from src.scripts.utils import show_bgr, mkdir, CLASSES
+from src.scripts.utils import SageMakerRoot_dir
 
 
 def get_model_from_state(model_dir):
@@ -134,7 +135,7 @@ def save_crop_dataset(folder_dict, save_dir, shift_scale=1.0, size=(256, 256)):
 if __name__ == "__main__":
     dataset_name = 'data001_size224'
     train_name = 'detector_002'
-    model_dir = '/workdir/data/models/{0}/{1}/'.format(dataset_name, train_name)
+    model_dir = os.path.join(SageMakerRoot_dir, 'models/{0}/{1}/'.format(dataset_name, train_name))
 
     train_df, add_df = load_train_add_kfold_df()
     test_df = get_test_df()
@@ -149,7 +150,8 @@ if __name__ == "__main__":
 
     """first sample plot"""
     size = (1024, 1024)
-    save_dir = '/workdir/data/preproc_data/data002_kfold_val_detector002_size256_scale1.5'
+
+    save_dir = os.path.join(SageMakerRoot_dir, 'preproc_data/data002_kfold_val_detector002_size256_scale1.5')
 
     result_folder_dict = save_crop_dataset(folder_dict, save_dir, shift_scale=1.5, size=size)
 
@@ -159,7 +161,7 @@ if __name__ == "__main__":
     }
 
     """second sample plot"""
-    save_dir = '/workdir/data/preproc_data/data002_kfold_val_detector002_size256_scale1.0'
+    save_dir = os.path.join(SageMakerRoot_dir, 'preproc_data/data002_kfold_val_detector002_size256_scale1.0')
 
     result_folder_dict = save_crop_dataset(folder_dict, save_dir, shift_scale=1.0, size=size)
 
@@ -169,12 +171,13 @@ if __name__ == "__main__":
     }
 
     """third sample plot"""
-    save_dir = '/workdir/data/preproc_data/data002_kfold_val_detector002_size256_scale2.0'
+    save_dir = os.path.join(SageMakerRoot_dir, 'preproc_data/data002_kfold_val_detector002_size256_scale2.0')
 
     result_folder_dict = save_crop_dataset(folder_dict, save_dir, shift_scale=2.0, size=size)
 
     model = get_model_from_state(model_dir)
-    img_path = '/workdir/data/test/348.jpg'
+    img_path = os.path.join(SageMakerRoot_dir, 'data/test/348.jpg')
+
     for img_path in test_df.Path:
         points = model_pred_points(img_path, model, 224)
         orig_img = cv2.imread(img_path)

@@ -3,9 +3,11 @@ import sys
 sys.path.append('..')
 
 from src.scripts.train_kfolds import train_kfolds
+from src.scripts.utils import SageMakerRoot_dir
+import os
 
-data_dir = '/workdir/data/preproc_data/data002_kfold_val_detector002_size256_scale1.5'
-save_dir = '/workdir/data/kfold_train/10fold_vgg16_001'
+data_dir = os.path.join(SageMakerRoot_dir, 'data/preproc_data/data002_kfold_val_detector002_size256_scale1.5')
+save_dir = os.path.join(SageMakerRoot_dir, 'data/kfold_train/10fold_vgg16_001')
 
 params = {
     'data_dir': data_dir,
