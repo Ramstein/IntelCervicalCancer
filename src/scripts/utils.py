@@ -9,7 +9,7 @@ SageMakerTrainingRoot_dir = ""
 if SageMakerTrainingRoot_dir:
     SageMakerRoot_dir = SageMakerTrainingRoot_dir
 else:
-    SageMakerRoot_dir = "/home/ec2-user/SageMaker/CervicalCancerDataset"
+    SageMakerRoot_dir = "/home/ec2-user/SageMaker/CervicalCancer_dataset"
 
 TRAIN_DATA_DIR = join(SageMakerRoot_dir, 'train/')
 TEST_DATA_DIR = join(SageMakerRoot_dir, 'test/')
