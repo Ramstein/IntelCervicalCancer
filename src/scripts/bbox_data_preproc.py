@@ -124,7 +124,7 @@ def augment_save_data_df(df, aug_output_dir, net_size):
     mkdir(join(aug_output_dir, 'check'))
     print("Augmenting the data: Output being saved to", aug_output_dir)
 
-    for i, row in tqdm(df.iterrows()):
+    for i, row in df.iterrows():
         img, points = get_image_points(row)
         img, points = square_image(img, points)
         img, points = resize_image(img, points, net_size)
@@ -140,6 +140,7 @@ def augment_save_data_df(df, aug_output_dir, net_size):
                     flip_img, flip_pts = flip_image(flip_img, flip_pts, 1)
                     save_image(name + "_" + r + '_' + fl, aug_output_dir, flip_img, flip_pts)
             img, points = rot90_image(img, points)
+        print(i, sep='\t')
 
     print("Saved augmented data to", aug_output_dir)
 
