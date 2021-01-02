@@ -9,15 +9,15 @@ SageMakerTrainingRoot_dir = ""
 if SageMakerTrainingRoot_dir:
     SageMakerRoot_dir = SageMakerTrainingRoot_dir
 else:
-    SageMakerRoot_dir = "/home/ec2-user/SageMaker/IntelCervicalCancer"
+    SageMakerRoot_dir = "/home/ec2-user/SageMaker/CervicalCancerDataset"
 
-TRAIN_DATA_DIR = join(SageMakerRoot_dir, 'data/train/')
-TEST_DATA_DIR = join(SageMakerRoot_dir, 'data/test/')
-ADD_DATA_DIR = join(SageMakerRoot_dir, 'data/additional/')
-BBOX_FILES = join(SageMakerRoot_dir, 'data/bboxes/%s_bbox.tsv')
-SAMPLE_PATH = join(SageMakerRoot_dir, 'data/sample_submission.csv')
-dataset_in_pickle = join(SageMakerRoot_dir, 'data/train_val.pickle')
-aug_output_dir = join(SageMakerRoot_dir, 'data/detect_data/data001_size1024')
+TRAIN_DATA_DIR = join(SageMakerRoot_dir, 'train/')
+TEST_DATA_DIR = join(SageMakerRoot_dir, 'test/')
+ADD_DATA_DIR = join(SageMakerRoot_dir, 'additional/')
+BBOX_FILES = join(SageMakerRoot_dir, 'bboxes/%s_bbox.tsv')
+SAMPLE_PATH = join(SageMakerRoot_dir, 'sample_submission.csv')
+dataset_in_pickle = join(SageMakerRoot_dir, 'train_val.pickle')
+aug_output_dir = join(SageMakerRoot_dir, 'detect_data/data001_size1024')
 
 CLASSES = ['Type_1', 'Type_2', 'Type_3']
 

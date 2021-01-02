@@ -176,7 +176,7 @@ if __name__ == "__main__":
     result_folder_dict = save_crop_dataset(folder_dict, save_dir, shift_scale=2.0, size=size)
 
     model = get_model_from_state(model_dir)
-    img_path = os.path.join(SageMakerRoot_dir, 'data/test/348.jpg')
+    img_path = os.path.join(SageMakerRoot_dir, 'test/348.jpg')
 
     for img_path in test_df.Path:
         points = model_pred_points(img_path, model, 224)

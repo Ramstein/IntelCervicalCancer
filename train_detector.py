@@ -72,8 +72,8 @@ if __name__ == "__main__":
     img_size = (1024, 1024)
     dataset_name = 'data001_size1024'
     train_name = 'detector_002'
-    data_dir = os.path.join(SageMakerRoot_dir, 'data/detect_data/{0}'.format(dataset_name))
-    model_save_dir = os.path.join(SageMakerRoot_dir, 'data/models/{0}/{1}/'.format(dataset_name, train_name))
+    data_dir = os.path.join(SageMakerRoot_dir, 'detect_data/{0}'.format(dataset_name))
+    model_save_dir = os.path.join(SageMakerRoot_dir, 'models/{0}/{1}/'.format(dataset_name, train_name))
 
     if not os.path.isdir(model_save_dir):
         os.mkdir(model_save_dir)

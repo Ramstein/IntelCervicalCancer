@@ -76,7 +76,7 @@ def get_test_df():
 
 
 def load_train_add_kfold_df(k=10):
-    path = os.path.join(SageMakerRoot_dir, 'data/%dfold.pickle' % k)
+    path = os.path.join(SageMakerRoot_dir, '%dfold.pickle' % k)
     if os.path.isfile(path):
         with open(path, 'rb') as f:
             train_df, add_df = pickle.load(f)

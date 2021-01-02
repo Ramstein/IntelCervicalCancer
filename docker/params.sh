@@ -7,4 +7,4 @@ IMAGENAME="${NAME}"
 CONTNAME="--name=${NAME}"
 NET="--net=host"
 
-VOLUMES="-v $(pwd)/..:/workdir"
+VOLUMES="-v $(pwd)/..:"
