@@ -76,11 +76,11 @@ if __name__ == "__main__":
     model_save_dir = os.path.join(SageMakerRoot_dir, 'models/{0}/{1}/'.format(dataset_name, train_name))
 
     if not os.path.isdir(model_save_dir):
-        os.mkdir(model_save_dir)
+        os.makedirs(model_save_dir)
 
     """LOAD DATA"""
     """LOAD DATA"""
-    X_train, y_train, X_val, y_val = load_dataset(data_dir, img_size, N_max=15000)
+    X_train, y_train, X_val, y_val = load_dataset(data_dir, img_size, N_max=15616)  # total 15664 here 15616/64=244
 
     train_tensor = data_utils.TensorDataset(torch.from_numpy(X_train), torch.from_numpy(y_train))
     train_loader = data_utils.DataLoader(train_tensor, batch_size=batch_size, shuffle=True, pin_memory=True,
