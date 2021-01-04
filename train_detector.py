@@ -69,7 +69,7 @@ if __name__ == "__main__":
     workers = multiprocessing.cpu_count()
 
     if not os.path.isdir(model_save_dir):
-        os.makedirs(model_save_dir)
+        os.makedirs(model_save_dir, exist_ok=True)
 
     """LOAD DATA"""
     """LOAD DATA"""

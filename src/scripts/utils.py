@@ -26,7 +26,7 @@ if SageMakerTrainingRoot_dir:
     aug_output_dir = join(SageMakerRoot_dir, 'input/data/detect_data/{0}'.format(dataset_name))
     pred_aug_output_dir = join(SageMakerRoot_dir, 'pred_aug_output')
     model_save_dir = os.path.join(os.environ['SM_MODEL_DIR'], '{0}/{1}/'.format(dataset_name, train_name))
-    dataset_in_numpy = os.path.join(os.environ['SM_MODEL_DIR'], 'dataset_in_numpy')
+    dataset_in_numpy = os.path.join(SageMakerRoot_dir, 'input/data/dataset_in_numpy')
 
 else:
     SageMakerRoot_dir = "/home/ec2-user/SageMaker"
@@ -40,7 +40,7 @@ else:
     pred_aug_output_dir = join(SageMakerRoot_dir, 'CervicalCancer_dataset/pred_aug_output')
     model_save_dir = os.path.join(SageMakerRoot_dir,
                                   'CervicalCancer_dataset/models/{0}/{1}/'.format(dataset_name, train_name))
-    dataset_in_numpy = os.path.join(SageMakerRoot_dir, 'dataset_in_numpy')
+    dataset_in_numpy = os.path.join(SageMakerRoot_dir, 'CervicalCancer_dataset/dataset_in_numpy')
 
 # data_dir = aug_output_dir
 
