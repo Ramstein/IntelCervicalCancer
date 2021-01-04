@@ -8,7 +8,7 @@ from tqdm import tqdm
 
 from src.scripts.bboxes import get_bboxes_df
 from src.scripts.train_val import load_train_val_df
-from src.scripts.utils import dataset_in_numpy, mkdir
+from src.scripts.utils import dataset_in_numpy, mkdir, aug_output_dir
 
 
 def load_bboxes_train_val_df():
@@ -174,8 +174,8 @@ def load_dataset(data_dir, img_size, N_max=15000):
         y_val = np.load(join(dataset_in_numpy, 'y_val.npy'))
         print("Loaded X_train.npy, y_train.npy, X_val.npy, y_val.npy")
     else:
-        X_train, y_train = load_data(join(data_dir, 'train'), img_size, N_max)  # reads the augmented data
-        X_val, y_val = load_data(join(data_dir, 'val'), img_size, N_max)
+        X_train, y_train = load_data(join(aug_output_dir, 'train'), img_size, N_max)  # reads the augmented data
+        X_val, y_val = load_data(join(aug_output_dir, 'val'), img_size, N_max)
         np.save(join(dataset_in_numpy, 'X_train.npy'), X_train)
         np.save(join(dataset_in_numpy, 'y_train.npy'), y_train)
         np.save(join(dataset_in_numpy, 'X_val.npy'), X_val)
