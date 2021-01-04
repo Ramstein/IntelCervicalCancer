@@ -11,7 +11,7 @@ import torch
 from src.scripts.bbox_data_preproc import square_image, netout2points, check_poly
 from src.scripts.kfold_data import load_train_add_kfold_df, get_test_df
 from src.scripts.models import Detector
-from src.scripts.utils import show_bgr, mkdir, CLASSES
+from src.scripts.utils import show_bgr, mkdir, CLASSES, model_save_dir, img_size
 from src.scripts.utils import SageMakerRoot_dir
 
 
@@ -133,15 +133,12 @@ def save_crop_dataset(folder_dict, save_dir, shift_scale=1.0, size=(256, 256)):
 
 
 if __name__ == "__main__":
-    dataset_name = 'data001_size224'
-    train_name = 'detector_002'
-    model_dir = os.path.join(SageMakerRoot_dir, 'models/{0}/{1}/'.format(dataset_name, train_name))
 
     train_df, add_df = load_train_add_kfold_df()
     test_df = get_test_df()
 
-    test_pred_df = pred_bboxes(test_df, model_dir)
-    add_pred_df = pred_bboxes(add_df, model_dir)
+    test_pred_df = pred_bboxes(test_df, model_save_dir)
+    add_pred_df = pred_bboxes(add_df, model_save_dir)
 
     folder_dict = {
         'train': 4 * [train_df] + [add_pred_df],
@@ -149,11 +146,10 @@ if __name__ == "__main__":
     }
 
     """first sample plot"""
-    size = (1024, 1024)
 
-    save_dir = os.path.join(SageMakerRoot_dir, 'preproc_data/data002_kfold_val_detector002_size256_scale1.5')
+    save_dir = os.path.join(pred_aug_output_dir, 'preproc_data/data002_kfold_val_detector002_size256_scale1.5')
 
-    result_folder_dict = save_crop_dataset(folder_dict, save_dir, shift_scale=1.5, size=size)
+    result_folder_dict = save_crop_dataset(folder_dict, save_dir, shift_scale=1.5, size=img_size)
 
     folder_dict = {
         'train': 4 * [train_df] + [add_pred_df],
@@ -163,7 +159,7 @@ if __name__ == "__main__":
     """second sample plot"""
     save_dir = os.path.join(SageMakerRoot_dir, 'preproc_data/data002_kfold_val_detector002_size256_scale1.0')
 
-    result_folder_dict = save_crop_dataset(folder_dict, save_dir, shift_scale=1.0, size=size)
+    result_folder_dict = save_crop_dataset(folder_dict, save_dir, shift_scale=1.0, size=img_size)
 
     folder_dict = {
         'train': 4 * [train_df] + [add_pred_df],
@@ -173,9 +169,9 @@ if __name__ == "__main__":
     """third sample plot"""
     save_dir = os.path.join(SageMakerRoot_dir, 'preproc_data/data002_kfold_val_detector002_size256_scale2.0')
 
-    result_folder_dict = save_crop_dataset(folder_dict, save_dir, shift_scale=2.0, size=size)
+    result_folder_dict = save_crop_dataset(folder_dict, save_dir, shift_scale=2.0, size=img_size)
 
-    model = get_model_from_state(model_dir)
+    model = get_model_from_state(model_save_dir)
     img_path = os.path.join(SageMakerRoot_dir, 'test/348.jpg')
 
     for img_path in test_df.Path:
