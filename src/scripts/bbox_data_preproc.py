@@ -1,4 +1,6 @@
 import random
+from os import listdir
+from os.path import join, isfile
 
 import cv2
 import numpy as np
@@ -6,7 +8,7 @@ from tqdm import tqdm
 
 from src.scripts.bboxes import get_bboxes_df
 from src.scripts.train_val import load_train_val_df
-from src.scripts.utils import *
+from src.scripts.utils import dataset_in_numpy, mkdir
 
 
 def load_bboxes_train_val_df():
@@ -148,7 +150,7 @@ def augment_save_data_df(df, aug_output_dir, net_size):
 def load_data(data_dir, img_size, N_max):
     img_dir = join(data_dir, 'img')
     pts_dir = join(data_dir, 'pts')
-    img_names = os.listdir(img_dir)
+    img_names = listdir(img_dir)
     N_examples = min(len(img_names), N_max)
 
     data = np.zeros([N_examples, 3] + list(img_size), dtype=np.float32)
@@ -165,18 +167,18 @@ def load_data(data_dir, img_size, N_max):
 
 
 def load_dataset(data_dir, img_size, N_max=15000):
-    if os.path.isfile(join(data_dir, 'X_train.npy')):
-        X_train = np.load(join(data_dir, 'X_train.npy'))
-        y_train = np.load(join(data_dir, 'y_train.npy'))
-        X_val = np.load(join(data_dir, 'X_val.npy'))
-        y_val = np.load(join(data_dir, 'y_val.npy'))
+    if isfile(join(dataset_in_numpy, 'X_train.npy')):
+        X_train = np.load(join(dataset_in_numpy, 'X_train.npy'))
+        y_train = np.load(join(dataset_in_numpy, 'y_train.npy'))
+        X_val = np.load(join(dataset_in_numpy, 'X_val.npy'))
+        y_val = np.load(join(dataset_in_numpy, 'y_val.npy'))
         print("Loaded X_train.npy, y_train.npy, X_val.npy, y_val.npy")
     else:
         X_train, y_train = load_data(join(data_dir, 'train'), img_size, N_max)  # reads the augmented data
         X_val, y_val = load_data(join(data_dir, 'val'), img_size, N_max)
-        np.save(join(data_dir, 'X_train.npy'), X_train)
-        np.save(join(data_dir, 'y_train.npy'), y_train)
-        np.save(join(data_dir, 'X_val.npy'), X_val)
-        np.save(join(data_dir, 'y_val.npy'), y_val)
+        np.save(join(dataset_in_numpy, 'X_train.npy'), X_train)
+        np.save(join(dataset_in_numpy, 'y_train.npy'), y_train)
+        np.save(join(dataset_in_numpy, 'X_val.npy'), X_val)
+        np.save(join(dataset_in_numpy, 'y_val.npy'), y_val)
         print("Created X_train.npy, y_train.npy, X_val.npy, y_val.npy and saved it.")
     return X_train, y_train, X_val, y_val
