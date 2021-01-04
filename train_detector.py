@@ -9,7 +9,7 @@ from torch.autograd.variable import Variable
 
 from src.scripts.bbox_data_preproc import load_dataset
 from src.scripts.models import Detector
-from src.scripts.utils import SageMakerRoot_dir
+from src.scripts.utils import model_save_dir, data_dir, batch_size, n_epoch, img_size, LR
 
 
 def get_model():
@@ -65,15 +65,8 @@ def validate(model, val_loader):
 
 
 if __name__ == "__main__":
-    batch_size = 64
-    LR = 0.0001
-    n_epoch = 1000
+
     workers = multiprocessing.cpu_count()
-    img_size = (1024, 1024)
-    dataset_name = 'data001_size1024'
-    train_name = 'detector_002'
-    data_dir = os.path.join(SageMakerRoot_dir, 'detect_data/{0}'.format(dataset_name))
-    model_save_dir = os.path.join(SageMakerRoot_dir, 'models/{0}/{1}/'.format(dataset_name, train_name))
 
     if not os.path.isdir(model_save_dir):
         os.makedirs(model_save_dir)
@@ -100,7 +93,7 @@ if __name__ == "__main__":
     """TRAIN"""
     train_acc_old = 0
     epoch_str = ""
-    for epoch in range(0, n_epoch):
+    for epoch in range(1, n_epoch + 1):
         train_acc, train_loss = train(model, train_loader)
         val_acc, val_loss = validate(model, val_loader)
         epoch_str = "epoch-{}_TA-{:.4f}_TL-{:.4f}_VA-{:.4f}_VL-{:.4f}".format(epoch, train_acc, train_loss, val_acc,
