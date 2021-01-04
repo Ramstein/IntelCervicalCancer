@@ -23,7 +23,7 @@ if SageMakerTrainingRoot_dir:
     BBOX_FILES = join(SageMakerRoot_dir, 'input/data/bboxes/%s_bbox.tsv')
     SAMPLE_PATH = join(SageMakerRoot_dir, 'input/data/sample_submission.csv')
     dataset_in_pickle = join(SageMakerRoot_dir, 'input/data/train_val.pickle')
-    aug_output_dir = join(SageMakerRoot_dir, 'input/data/detect_data/data001_size1024')
+    aug_output_dir = join(SageMakerRoot_dir, 'input/data/detect_data/{0}'.format(dataset_name))
     pred_aug_output_dir = join(SageMakerRoot_dir, 'pred_aug_output')
     model_save_dir = os.path.join(os.environ['SM_MODEL_DIR'], '{0}/{1}/'.format(dataset_name, train_name))
 
@@ -40,7 +40,7 @@ else:
     model_save_dir = os.path.join(SageMakerRoot_dir,
                                   'Haemorrhage_dataset/models/{0}/{1}/'.format(dataset_name, train_name))
 
-data_dir = aug_output_dir
+# data_dir = aug_output_dir
 
 
 def mkdir(dir):
