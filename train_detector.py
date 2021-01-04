@@ -9,7 +9,7 @@ from torch.autograd.variable import Variable
 
 from src.scripts.bbox_data_preproc import load_dataset
 from src.scripts.models import Detector
-from src.scripts.utils import model_save_dir, batch_size, n_epoch, img_size, LR, aug_output_dir
+from src.scripts.utils import model_save_dir, batch_size, n_epoch, img_size, LR, aug_output_dir, dataset_in_numpy, SageMakerRoot_dir
 
 
 def get_model():
@@ -73,8 +73,12 @@ if __name__ == "__main__":
 
     """LOAD DATA"""
     """LOAD DATA"""
-    X_train, y_train, X_val, y_val = load_dataset(aug_output_dir, img_size,
-                                                  N_max=15616)  # total 15664 here 15616/64=244
+    if '/opt/ml' in SageMakerRoot_dir:
+        X_train, y_train, X_val, y_val = load_dataset(dataset_in_numpy, img_size,
+                                                      N_max=15616)  # total 15664 here 15616/64=244
+    else:
+        X_train, y_train, X_val, y_val = load_dataset(aug_output_dir, img_size,
+                                                      N_max=15616)  # total 15664 here 15616/64=244
 
     train_tensor = data_utils.TensorDataset(torch.from_numpy(X_train), torch.from_numpy(y_train))
     train_loader = data_utils.DataLoader(train_tensor, batch_size=batch_size, shuffle=True, pin_memory=True,
