@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 CLASSES = ['Type_1', 'Type_2', 'Type_3']
 dataset_name = 'data001_size512'
 train_name = 'detector_002'
-batch_size = 16
+batch_size = 64
 LR = 0.0001
 n_epoch = 5  # testing
 img_size = (512, 512)  # size (1024, 1024) requiring 1.5TB of memory
