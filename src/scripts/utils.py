@@ -27,7 +27,7 @@ if SageMakerTrainingRoot_dir:
     dataset_in_pickle = join(SageMakerRoot_dir, 'input/data/train_val.pickle')
     aug_output_dir = join(SageMakerRoot_dir, 'input/data/detect_data/{0}'.format(dataset_name))
     pred_aug_output_dir = join(SageMakerRoot_dir, 'pred_aug_output')
-    model_save_dir = os.path.join(os.environ['SM_MODEL_DIR'], '{0}/{1}'.format(dataset_name, train_name))
+    model_save_dir = os.path.join(os.environ['SM_OUTPUT_DATA_DIR'], 'models/{0}/{1}'.format(dataset_name, train_name))
     dataset_in_numpy = os.path.join(SageMakerRoot_dir, 'input/data/dataset_in_numpy')
 
 else:

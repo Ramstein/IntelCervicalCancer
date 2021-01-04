@@ -168,7 +168,7 @@ def load_data(data_dir, img_size, N_max):
 
 def load_dataset(data_dir, img_size, N_max=15000):
     if isfile(join(dataset_in_numpy, 'X_train.npy')):
-        X_train = np.load(join(dataset_in_numpy, 'X_train.npy'))
+        X_train = np.load(join(dataset_in_numpy, 'X_train.npy')).reshape(shape=(-1, 3, 512, 512))
         y_train = np.load(join(dataset_in_numpy, 'y_train.npy'))
         X_val = np.load(join(dataset_in_numpy, 'X_val.npy'))
         y_val = np.load(join(dataset_in_numpy, 'y_val.npy'))
