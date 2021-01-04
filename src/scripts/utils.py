@@ -9,7 +9,7 @@ dataset_name = 'data001_size1024'
 train_name = 'detector_002'
 batch_size = 64
 LR = 0.0001
-n_epoch = 1000
+n_epoch = 1
 img_size = (1024, 1024)
 
 # SageMakerTrainingRoot_dir = '/opt/ml'
