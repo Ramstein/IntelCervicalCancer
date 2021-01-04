@@ -3,7 +3,7 @@ from os.path import join
 
 import matplotlib.pyplot as plt
 
-
+# defined some constants values
 CLASSES = ['Type_1', 'Type_2', 'Type_3']
 dataset_name = 'data001_size1024'
 train_name = 'detector_002'
@@ -13,7 +13,6 @@ n_epoch = 1000
 img_size = (1024, 1024)
 
 
-# SageMakerTrainingRoot_dir = "/opt/ml/"  # Here /code/==/IntelCervicalCancer/
 SageMakerTrainingRoot_dir = ""
 if SageMakerTrainingRoot_dir:
     SageMakerRoot_dir = SageMakerTrainingRoot_dir
