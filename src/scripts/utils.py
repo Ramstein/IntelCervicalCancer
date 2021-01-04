@@ -15,7 +15,7 @@ img_size = (512, 512)  # size (1024, 1024) requiring 1.5TB of memory
 try:
     SageMakerTrainingRoot_dir = os.path.dirname(os.environ['SM_MODEL_DIR'])  # '/opt/ml'
 except:
-    SageMakerTrainingRoot_dir = "input/data/train"
+    SageMakerTrainingRoot_dir = ""
 
 if SageMakerTrainingRoot_dir:
     SageMakerRoot_dir = SageMakerTrainingRoot_dir
