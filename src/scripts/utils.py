@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 # defined some constants values
 CLASSES = ['Type_1', 'Type_2', 'Type_3']
-dataset_name = 'data001_size1024'
+dataset_name = 'data001_size512'
 train_name = 'detector_002'
 batch_size = 64
 LR = 0.0001
