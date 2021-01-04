@@ -10,7 +10,7 @@ train_name = 'detector_002'
 batch_size = 64
 LR = 0.0001
 n_epoch = 1
-img_size = (1024, 1024)
+img_size = (512, 512)  # size (1024, 1024) requiring 1.5TB of memory
 
 # SageMakerTrainingRoot_dir = '/opt/ml'
 SageMakerTrainingRoot_dir = ""
